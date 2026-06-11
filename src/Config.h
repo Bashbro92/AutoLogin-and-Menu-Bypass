@@ -13,6 +13,12 @@ struct CharacterCacheData {
     int OriginalSlotIndex;
 };
 
+struct ServerDef {
+    std::string name;
+    std::string region;
+    std::string ip;
+};
+
 class Config {
 public:
     static Config* GetInstance();
@@ -28,8 +34,9 @@ public:
     // Checked specific servers map (ServerName -> IsChecked)
     std::map<std::string, bool> ServerCheckboxes;
 
-    // Cache of characters discovered during previous injection
+    // Cache of characters and servers discovered during previous injection
     std::vector<CharacterCacheData> CachedCharacters;
+    std::vector<ServerDef> CachedServers;
 
     std::recursive_mutex ConfigMutex;
 

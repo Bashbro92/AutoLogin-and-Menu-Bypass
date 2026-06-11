@@ -193,18 +193,7 @@ static const char* regions[] = { "Any", "US West", "US East", "EU", "AUS" };
 #include <iomanip>
 #include <sstream>
 
-
-
-struct ServerDef {
-    std::string name;
-    std::string region;
-    std::string ip;
-};
-
-static std::vector<ServerDef> g_DiscoveredServers;
-static std::map<std::string, bool> g_ServerCheckboxes;
-static std::string g_SelectedRegion = "";
-static std::string g_TargetServer = "";
+static std::string g_ServerStateText = "Not Connected";
 static bool g_ServersScanned = false;
 static std::mutex g_ServersMutex;
 
@@ -277,7 +266,7 @@ Boilerplate* Boilerplate::GetInstance() {
     return &instance;
 }
 
-static std::string g_ServerStateText = "Not Connected";
+
 static char g_CurrentProfileInput[64] = "Default";
 static std::string g_CurrentProfile = "Default";
 
@@ -324,7 +313,6 @@ void Boilerplate::Update() {
                     if (g_ServerStateText != "Connected") {
                         g_ServerStateText = "Connected";
                         std::cout << "[AutoLogin] State: Connected! Successfully loaded into game world." << std::endl;
-                        config->AutoLoginEnabled = false;
                         config->Save(g_CurrentProfile);
                     }
                 } else if (g_ServerStateText == "Connected") {
@@ -406,10 +394,45 @@ void Boilerplate::Update() {
                 // State 4: Server Selection
                 else if (state == "Picking Servers") {
                     if (auto serverList = FindWidget<SDK::UW_ServerSlotsList_C>()) {
+                        
+                        // Auto-Scan servers if we haven't already this session
+                        if (!g_ServersScanned) {
+                            std::lock_guard<std::mutex> lock(g_ServersMutex);
+                            config->CachedServers.clear();
+                            auto entries = FindWidgets<SDK::UServerSlotEntry>();
+                            for (auto* entry : entries) {
+                                std::string name = entry->SlotName.ToString();
+                                std::string rawRegion = entry->Region.ToString();
+                                std::string region = rawRegion;
+                                
+                                if (rawRegion.find("us-west") != std::string::npos) region = "US West";
+                                else if (rawRegion.find("us-east") != std::string::npos) region = "US East";
+                                else if (rawRegion.find("eu-") != std::string::npos) region = "EU";
+                                else if (rawRegion.find("ap-") != std::string::npos) region = "AUS";
+                                else if (rawRegion.find("sa-") != std::string::npos) region = "SA";
+                                
+                                if (!name.empty() && !rawRegion.empty()) {
+                                    // Prevent duplicates
+                                    bool exists = false;
+                                    for (const auto& srv : config->CachedServers) {
+                                        if (srv.name == name) { exists = true; break; }
+                                    }
+                                    if (!exists) {
+                                        config->CachedServers.push_back({name, region, entry->ServerIP.ToString()});
+                                    }
+                                }
+                            }
+                            if (!config->CachedServers.empty()) {
+                                g_ServersScanned = true;
+                                config->Save(g_CurrentProfile);
+                                std::cout << "[AutoLogin] Auto-Scanned " << config->CachedServers.size() << " servers!" << std::endl;
+                            }
+                        }
+
                         std::vector<ServerDef> candidates;
                         {
                             std::lock_guard<std::mutex> lock(g_ServersMutex);
-                            for (const auto& srv : g_DiscoveredServers) {
+                            for (const auto& srv : config->CachedServers) {
                                 if (config->SelectedRegion.empty() || srv.region == config->SelectedRegion) {
                                     if (config->ServerCheckboxes[srv.name]) {
                                         candidates.push_back(srv);
@@ -419,7 +442,7 @@ void Boilerplate::Update() {
                             
                             // Fallback to any valid if none checked
                             if (candidates.empty()) {
-                                for (const auto& srv : g_DiscoveredServers) {
+                                for (const auto& srv : config->CachedServers) {
                                     if (config->SelectedRegion.empty() || srv.region == config->SelectedRegion) {
                                         candidates.push_back(srv);
                                     }
@@ -544,47 +567,53 @@ void Boilerplate::DrawUI() {
     
     ImGui::Separator();
     
-    if (ImGui::Button("Scan For Servers")) {
+    if (ImGui::Button("3. Scan for Servers")) {
         Boilerplate::GetInstance()->QueueTask([]() {
-            auto entries = FindWidgets<SDK::UServerSlotEntry>();
-            
-            std::lock_guard<std::mutex> lock(g_ServersMutex);
-            g_DiscoveredServers.clear();
-            for (auto* entry : entries) {
-                std::string name = entry->SlotName.ToString();
-                std::string rawRegion = entry->Region.ToString();
-                std::string region = rawRegion;
+            auto serverList = FindWidget<SDK::UW_ServerSlotsList_C>();
+            if (serverList) {
+                std::lock_guard<std::mutex> lock(g_ServersMutex);
+                auto config = Config::GetInstance();
+                config->CachedServers.clear();
                 
-                if (rawRegion.find("us-west") != std::string::npos) region = "US West";
-                else if (rawRegion.find("us-east") != std::string::npos) region = "US East";
-                else if (rawRegion.find("eu-") != std::string::npos) region = "EU";
-                else if (rawRegion.find("ap-") != std::string::npos) region = "AUS";
-                else if (rawRegion.find("sa-") != std::string::npos) region = "SA";
-                
-                if (!name.empty() && !rawRegion.empty()) {
-                    // Prevent duplicates
-                    bool exists = false;
-                    for (const auto& srv : g_DiscoveredServers) {
-                        if (srv.name == name) { exists = true; break; }
-                    }
-                    if (!exists) {
-                        g_DiscoveredServers.push_back({name, region, entry->ServerIP.ToString()});
-                        std::cout << "[AutoLogin] Discovered Server: " << name << " in Region: " << region << " (IP: " << entry->ServerIP.ToString() << ")" << std::endl;
+                auto entries = FindWidgets<SDK::UServerSlotEntry>();
+                for (auto* entry : entries) {
+                    std::string name = entry->SlotName.ToString();
+                    std::string rawRegion = entry->Region.ToString();
+                    std::string region = rawRegion;
+                    
+                    if (rawRegion.find("us-west") != std::string::npos) region = "US West";
+                    else if (rawRegion.find("us-east") != std::string::npos) region = "US East";
+                    else if (rawRegion.find("eu-") != std::string::npos) region = "EU";
+                    else if (rawRegion.find("ap-") != std::string::npos) region = "AUS";
+                    else if (rawRegion.find("sa-") != std::string::npos) region = "SA";
+                    
+                    if (!name.empty() && !rawRegion.empty()) {
+                        // Prevent duplicates
+                        bool exists = false;
+                        for (const auto& srv : config->CachedServers) {
+                            if (srv.name == name) { exists = true; break; }
+                        }
+                        if (!exists) {
+                            config->CachedServers.push_back({name, region, entry->ServerIP.ToString()});
+                        }
                     }
                 }
-            }
-            std::cout << "[AutoLogin] Scanned " << g_DiscoveredServers.size() << " servers!" << std::endl;
-            
-            if (g_DiscoveredServers.empty()) {
-                std::cout << "[AutoLogin] Please open the Server List in-game first to scan!" << std::endl;
+                
+                if (!config->CachedServers.empty()) {
+                    g_ServersScanned = true;
+                    config->Save(g_CurrentProfile);
+                    std::cout << "[AutoLogin] Scanned " << config->CachedServers.size() << " servers!" << std::endl;
+                }
+            } else {
+                std::cout << "[AutoLogin] Error: You must be on the Server Selection screen to scan!" << std::endl;
             }
         });
     }
     
     std::lock_guard<std::mutex> drawLock(g_ServersMutex);
-    if (!g_DiscoveredServers.empty()) {
+    if (!config->CachedServers.empty()) {
         std::vector<std::string> regions;
-        for (const auto& srv : g_DiscoveredServers) {
+        for (const auto& srv : config->CachedServers) {
             if (std::find(regions.begin(), regions.end(), srv.region) == regions.end()) {
                 regions.push_back(srv.region);
             }
@@ -612,7 +641,7 @@ void Boilerplate::DrawUI() {
             config->Save(g_CurrentProfile);
         }
         
-        for (const auto& srv : g_DiscoveredServers) {
+        for (const auto& srv : config->CachedServers) {
             if (config->SelectedRegion.empty() || srv.region == config->SelectedRegion) {
                 std::string label;
                 if (config->SelectedRegion.empty()) {
@@ -749,7 +778,7 @@ void Boilerplate::DrawUI() {
             {
                 std::lock_guard<std::mutex> lock(g_ServersMutex);
                 auto config = Config::GetInstance();
-                for (const auto& srv : g_DiscoveredServers) {
+                for (const auto& srv : config->CachedServers) {
                     if (config->SelectedRegion.empty() || srv.region == config->SelectedRegion) {
                         if (config->ServerCheckboxes[srv.name]) {
                             candidates.push_back(srv);
@@ -757,9 +786,9 @@ void Boilerplate::DrawUI() {
                     }
                 }
                 
-                // If no checkboxes selected, any server in the region is valid
+                // Fallback to any valid region if none checked
                 if (candidates.empty()) {
-                    for (const auto& srv : g_DiscoveredServers) {
+                    for (const auto& srv : config->CachedServers) {
                         if (config->SelectedRegion.empty() || srv.region == config->SelectedRegion) {
                             candidates.push_back(srv);
                         }

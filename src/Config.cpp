@@ -33,6 +33,7 @@ void Config::Load(const std::string& profileName) {
     SelectedCharacterSlot = -1;
     ServerCheckboxes.clear();
     CachedCharacters.clear();
+    CachedServers.clear();
 
     while (std::getline(file, line)) {
         if (line.empty()) continue;
@@ -73,6 +74,21 @@ void Config::Load(const std::string& profileName) {
                 data.OriginalSlotIndex = std::stoi(parts[4]);
                 CachedCharacters.push_back(data);
             }
+        } else if (currentSection == "CachedServers") {
+            // Expected format: Name|Region|IP
+            std::stringstream ss(value);
+            std::string item;
+            std::vector<std::string> parts;
+            while (std::getline(ss, item, '|')) {
+                parts.push_back(item);
+            }
+            if (parts.size() == 3) {
+                ServerDef srv;
+                srv.name = parts[0];
+                srv.region = parts[1];
+                srv.ip = parts[2];
+                CachedServers.push_back(srv);
+            }
         }
     }
 }
@@ -98,11 +114,12 @@ void Config::Save(const std::string& profileName) {
     file << "\n[Characters]\n";
     for (size_t i = 0; i < CachedCharacters.size(); ++i) {
         const auto& c = CachedCharacters[i];
-        file << "Char" << i << "=" 
-             << c.Name << "|" 
-             << c.CombatLevel << "|" 
-             << c.OverallLevel << "|" 
-             << c.Label << "|" 
-             << c.OriginalSlotIndex << "\n";
+        file << "Char" << i << "=" << c.Name << "|" << c.CombatLevel << "|" << c.OverallLevel << "|" << c.Label << "|" << c.OriginalSlotIndex << "\n";
+    }
+
+    file << "\n[CachedServers]\n";
+    for (size_t i = 0; i < CachedServers.size(); ++i) {
+        const auto& s = CachedServers[i];
+        file << "Server" << i << "=" << s.name << "|" << s.region << "|" << s.ip << "\n";
     }
 }
