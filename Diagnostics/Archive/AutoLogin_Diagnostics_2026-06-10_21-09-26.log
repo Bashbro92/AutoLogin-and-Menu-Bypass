@@ -1,0 +1,38 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 10 2026 18:26:19
+[Diagnostics] Process ID (PID): 31860
+[Diagnostics] Game Base Address: 0x7ff6b1ad0000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FF8318D3390
+[Hooks] Found Present: 0x00007FF8A4B4D7E0
+[Hooks] DX12 Hooks Enabled.
+[Diagnostics] Hooks initialized successfully!
+[KernelMouse] Successfully conn[Hooks] Captured ID3D12CommandQueue: 0xected to Kernel Driver.
+[Diagnostics] KernelMouse Driver Detected & Ready to use!
+0[Diagnostics] Waiting for End key to unhook...
+0000257BE7935C0
+[Hooks] Attempting to initialize ImGui for DX12...
+[Hooks] DX12 Device: 0x00000257984A1200, Buffers: 3
+[Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] Simulating Play Online click...
+[AutoLogin] Simulating Login with Steam click...
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] Discovered Server: Server1 in Region: US West (IP: 54.176.130.39:7777)
+[AutoLogin] Discovered Server: Server2 in Region: EU (IP: 18.184.213.129:7777)
+[AutoLogin] Discovered Server: Server3 in Region: AUS (IP: 3.27.62.11:7777)
+[AutoLogin] Discovered Server: Server5 in Region: EU (IP: 3.75.94.173:7777)
+[AutoLogin] Discovered Server: Server6 in Region: US East (IP: 54.204.236.58:7777)
+[AutoLogin] Discovered Server: Server7 in Region: US East (IP: 32.195.200.58:7777)
+[AutoLogin] Scanned 6 servers!

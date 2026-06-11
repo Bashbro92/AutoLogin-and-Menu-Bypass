@@ -1,0 +1,13 @@
+build/
+build2/
+.vs/
+*.dll
+*.obj
+*.exe
+*.dmp
+*.pdb
+*.ilk
+*.lib
+*.exp
+out/
+bin/

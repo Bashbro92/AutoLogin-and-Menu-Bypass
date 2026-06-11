@@ -1,0 +1,17 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Process ID (PID): 2188
+[Diagnostics] Game Base Address: 0x7ff735240000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Kiero2 failed to locate D3D12 functions! Error Code: 2

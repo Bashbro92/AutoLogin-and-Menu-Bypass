@@ -1,0 +1,36 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 10 2026 18:26:19
+[Diagnostics] Process ID (PID): 5872
+[Diagnostics] Game Base Address: 0x7ff735240000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FFE0B2D3390
+[Hooks] Found Present: 0x00007FFE61CAD7E0
+[Hooks] DX12 Hooks Enabled.
+[Hooks] Captured ID3D12CommandQueue: 0x000001FF5291E0C0
+[Hooks] Attempting to initialize ImGui for DX12...
+[Hooks] DX12 Device: 0x000001FF59DA1D30, Buffers: 3
+[Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] Simulating Play Online click...
+[AutoLogin] W_CharacterSelection_C not found!
+[AutoLogin] Iterating Server List...
+[AutoLogin] Simulating Play Online click...
+[AutoLogin] W_CharacterSelection_C not found!
+[AutoLogin] Iterating Server List...
+[Diagnostics] Console cleared!
+[AutoLogin] Simulating Play Online click...
+[AutoLogin] W_CharacterSelection_C not found!
+[AutoLogin] Iterating Server List...
+[Diagnostics] Console cleared!
+[Diagnostics] Console cleared!

@@ -1,0 +1,29 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Diagnostics] Starting Hook Initialization...
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] ExecuteCommandLists: 0x00007FFE0E723390
+[Hooks] Creating dummy DX11 SwapChain to extract Present...
+[Hooks] Present: 0x00007FFE61CAD7E0, ResizeBuffers: 0x00007FFE61CD87D0
+[Hooks] DX12 Hooks Enabled.
+[Diagnostics] Hooks initialized successfully! Waiting for End key to unhook...
+[Hooks] Captured ID3D12CommandQueue: 0x00000242184BEBA0
+[Hooks] Attempting to initialize ImGui for DX12...
+[Hooks] DX12 Device: 0x0000024263246DB0, Buffers: 3
+[Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] W_MainMenu_C not found!
+[AutoLogin] W_MainMenu_C not found!
+
+==================================================
+[CRASH] FATAL EXCEPTION CAUGHT!
+[CRASH] Exception Code: 0x4000
+[CRASH] Exception Address: 0x00007FFE64E01B6A
+[CRASH] Offset from Game Base: 0x72fbc1b6a
+[CRASH] RAX: 0x49004800520032 | RBX: 0xc449b7c7a8
+[CRASH] RCX: 0x6900720050005c | RDX: 0x65007400610076
+[CRASH] RSI: 0x0 | RDI: 0x4000
+[CRASH] RBP: 0x1 | RSP: 0xc449b7c670
+[CRASH] RIP: 0x7ffe64e01b6a
+==================================================
+

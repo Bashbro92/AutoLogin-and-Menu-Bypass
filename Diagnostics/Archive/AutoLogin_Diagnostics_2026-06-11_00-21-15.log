@@ -1,0 +1,46 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 11 2026 00:01:24
+[Diagnostics] Process ID (PID): 680
+[Diagnostics] Game Base Address: 0x7ff613e60000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FF8318D3390
+[Hooks] Found Present: 0x00007FF8A4B4D7E0
+[Hooks] DX12 Hooks Enabled.
+[Diagnostics] Hooks initialized successfully!
+[KernelMouse] Successfully connec[Hooks] Captured ted to KerneID3D12CommandQueue: 0x0000013l Driver2B473AD00
+.
+[Diagnostics] KernelMouse Driv[Hooker Detected & Ready to use!
+s[Diagnostics] Waiting for End key to unhook...
+] Attempting to initialize ImGui for DX12...
+[Hooks] DX12 Device: 0x00000132FF658740, Buffers: 3 (2489x1359)
+[Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] State: Going Online...
+[AutoLogin] Simulating Login with Steam click...
+[AutoLogin] Selecting Character Index: 0
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] Discovered Server: Server1 in Region: US West (IP: 54.176.130.39:7777)
+[AutoLogin] Discovered Server: Server2 in Region: EU (IP: 18.184.213.129:7777)
+[AutoLogin] Discovered Server: Server3 in Region: AUS (IP: 3.27.62.11:7777)
+[AutoLogin] Discovered Server: Server5 in Region: EU (IP: 3.75.94.173:7777)
+[AutoLogin] Discovered Server: Server6 in Region: US East (IP: 54.204.236.58:7777)
+[AutoLogin] Discovered Server: Server7 in Region: US East (IP: 32.195.200.58:7777)
+[AutoLogin] Scanned 6 servers!
+[AutoLogin] State: Connecting to Server6
+[AutoLogin] State: Connected! Successfully loaded into game world.
+[Diagnostics] Console cleared!
+[Diagnostics] Console cleared!
+[Diagnostics] Console cleared!
+[Diagnostics] Console cleared!
+[Diagnostics] Console cleared!

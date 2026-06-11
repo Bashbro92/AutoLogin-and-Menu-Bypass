@@ -1,0 +1,58 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 10 2026 22:10:42
+[Diagnostics] Process ID (PID): 27212
+[Diagnostics] Game Base Address: 0x7ff6b1ad0000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FF8318D3390
+[Hooks] Found Present: 0x00007FF8A4B4D7E0
+[Hooks] DX12 Hooks Enabled.
+[Diagnostics] Hooks initialized successfully!
+[KernelMouse] Successfully connected[Hooks] Captured ID3D12CommandQueue: 0x to0 Kernel Driver.
+[Diagnostics] KernelMouse Driver Detected & Ready to use!00002957D0052B0
+
+[Diagnostics] Waiting for End key to u[Hooks] Attempting to initialnhook...
+ize ImGui for DX12...
+[Hooks] DX12 Device: 0x0000029506F11B40, Buffers: 3 (2489x1359)
+[Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] State: Going Online...
+[AutoLogin] Scanned 0 servers!
+[AutoLogin] Please open the Server List in-game first to scan!
+[AutoLogin] Simulating Login with Steam click...
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] No valid servers found matching the criteria!
+[AutoLogin] Discovered Server: Server1 in Region: US West (IP: 54.176.130.39:7777)
+[AutoLogin] Discovered Server: Server2 in Region: EU (IP: 18.184.213.129:7777)
+[AutoLogin] Discovered Server: Server3 in Region: AUS (IP: 3.27.62.11:7777)
+[AutoLogin] Discovered Server: Server5 in Region: EU (IP: 3.75.94.173:7777)
+[AutoLogin] Discovered Server: Server6 in Region: US East (IP: 54.204.236.58:7777)
+[AutoLogin] Discovered Server: Server7 in Region: US East (IP: 32.195.200.58:7777)
+[AutoLogin] Scanned 6 servers!
+[AutoLogin] Found 3 character slots:
+  Slot 1: youngest (Combat Lvl 13, Overall Lvl 148)
+  Slot 2: new character (Combat Lvl 1, Overall Lvl 11)
+  Slot 3: New Character (Combat Lvl 1, Overall Lvl 1)
+
+==================================================
+[CRASH] FATAL EXCEPTION CAUGHT!
+[CRASH] Exception Code: 0xe06d7363
+[CRASH] Exception Address: 0x00007FF8A7ED1B6A
+[CRASH] Offset from Game Base: 0x1f6401b6a
+[CRASH] RAX: 0x3ff0000000000000 | RBX: 0xeeac17e058
+[CRASH] RCX: 0x3ff0000000000000 | RDX: 0x3ff0000000000000
+[CRASH] RSI: 0x1 | RDI: 0xe06d7363
+[CRASH] RBP: 0x4 | RSP: 0xeeac17df30
+[CRASH] RIP: 0x7ff8a7ed1b6a
+==================================================
+

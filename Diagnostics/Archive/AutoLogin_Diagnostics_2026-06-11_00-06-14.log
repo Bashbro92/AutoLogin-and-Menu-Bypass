@@ -1,0 +1,51 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 11 2026 00:01:24
+[Diagnostics] Process ID (PID): 36700
+[Diagnostics] Game Base Address: 0x7ff613e60000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FF8318D3390
+[Hooks] Found Present: 0x00007FF8A4B4D7E0
+[Hooks] Capture[Hooks] d ID3D12CommandQueueDX12 : 0x0000Ho0211598948F0
+oks Enabled.
+[[DiHooks] Attempting tagnostics] Hooks initialized successfullo iy!
+nitialize ImGui[KernelMouse] Successfully connected to for  KeDX12...
+rn[Hoeloks] Driver.
+ DX1[Diagnostics] KernelMouse Dri2 Device: 0x0000ver02118471C6 Dete50, Bufcted & Ready to use!fers:
+ [Diagnostics] Waiti3 (2489xng for End key 1359)
+to unhook...
+[Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] State: Going Online...
+[AutoLogin] Simulating Login with Steam click...
+[AutoLogin] Found 3 character slots:
+  Slot 1: youngest (Combat Lvl 13, Overall Lvl 148)
+  Slot 2: new character (Combat Lvl 1, Overall Lvl 11)
+  Slot 3: New Character (Combat Lvl 1, Overall Lvl 1)
+[AutoLogin] Scanned 0 servers!
+[AutoLogin] Please open the Server List in-game first to scan!
+[AutoLogin] Scanned 0 servers!
+[AutoLogin] Please open the Server List in-game first to scan!
+[AutoLogin] Selecting Character Index: 0
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] Discovered Server: Server1 in Region: US West (IP: 54.176.130.39:7777)
+[AutoLogin] Discovered Server: Server2 in Region: EU (IP: 18.184.213.129:7777)
+[AutoLogin] Discovered Server: Server3 in Region: AUS (IP: 3.27.62.11:7777)
+[AutoLogin] Discovered Server: Server5 in Region: EU (IP: 3.75.94.173:7777)
+[AutoLogin] Discovered Server: Server6 in Region: US East (IP: 54.204.236.58:7777)
+[AutoLogin] Discovered Server: Server7 in Region: US East (IP: 32.195.200.58:7777)
+[AutoLogin] Scanned 6 servers!
+[AutoLogin] State: Connecting to Server6
+[AutoLogin] State: Connected! Successfully loaded into game world.
+[AutoLogin] State: Connected! Successfully loaded into game world.
+[AutoLogin] State: Connected! Successfully loaded into game world.

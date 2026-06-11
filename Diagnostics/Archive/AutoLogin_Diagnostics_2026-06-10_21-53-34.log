@@ -1,0 +1,36 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 10 2026 21:19:23
+[Diagnostics] Process ID (PID): 4940
+[Diagnostics] Game Base Address: 0x7ff6b1ad0000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FF8318D3390
+[Hooks] Found Present: 0x00007FF8A4B4D7E0
+[Hooks] DX12 Hooks Enabled.
+[Diagnostics] Hooks initialized successfully!
+[KernelMouse] Successfull[Hooks]y conn Captured ID3D12Coected mtmandQueue: 0xo Kernel D000001C679A42680
+river.
+[Diagnostics] KernelMouse Driver Detected [Hooks] Atte& Ready to umptse!
+i[Diagnng to initialize ImGui for DX12...
+ostics] [Hooks] DX12 Device: 0xWaiting for End key to unhook...
+000001C67E9A55E0, Buffers: 3
+[Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] Simulating Play Online click...
+[AutoLogin] No valid servers found matching the criteria!
+[AutoLogin] W_CharacterSelection_C not found!
+[AutoLogin] Simulating Login with Steam click...
+[AutoLogin] No valid servers found matching the criteria!
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] Simulating Play Online click...
+[AutoLogin] Simulating Login with Steam click...

@@ -1,0 +1,20 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Diagnostics] Starting Hook Initialization...
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] ExecuteCommandLists: 0x00007FFE0E723390
+[Hooks] Creating dummy DX11 SwapChain to extract Present...
+[Hooks] Present: 0x00007FFE61CAD7E0, ResizeBuffers: 0x00007FFE61CD87D0
+[Hooks] DX12 Hooks Enab[Hooks] Captureledd ID3D12Comm.andQueue: 0x
+0[Di0000163FAA796A0
+agnostics] Hooks initialized successfully! Waiti[Hooks] Attempting to initialize ImGui for DX12...ng for End key to unhook..
+.[Hooks] DX
+12 Device: 0x000001638236E380, Buffers: 3
+[Hooks] ImGui DX12 Initialized Successfully!
+[FindWidget] Found candidate: W_MainMenu_C Transient.GameEngine_2147482590.ProjectSandboxGameInstance_2147482538.W_DefaultGameLayout_C_2147482347.WidgetTree_2147482346.W_MainMenu_C_2147482294
+[AutoLogin] W_MainMenu_C not found!
+[FindWidget] Found candidate: W_MainMenu_C Transient.GameEngine_2147482590.ProjectSandboxGameInstance_2147482538.W_DefaultGameLayout_C_2147482347.WidgetTree_2147482346.W_MainMenu_C_2147482294
+[AutoLogin] W_MainMenu_C not found!
+[Diagnostics] Unhooking and exiting...
+[Diagnostics] Shutting down diagnostics...

@@ -1,0 +1,53 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 10 2026 22:10:42
+[Diagnostics] Process ID (PID): 2148
+[Diagnostics] Game Base Address: 0x7ff6b1ad0000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FF8318D3390
+[Hooks] Found Present: 0x00007FF8A4B4D7E0
+[Hooks] DX12 Hooks Enabled.
+[Diagnostics] Hooks initialized s[Hooks] Captured ID3D12CommandQueue: 0xuccessfu000001149805EAD0
+lly!
+[Hooks] Att[KernelMouse] Successfully connected to Kernel Driver.
+[Diagnostics] KernelMouse empting to initialize ImGui for DXDriver Detected & Ready to use!
+1[Diagnostics]2...
+ [Hooks] DX12 Device: 0Waiting for End key to unhook...
+x000001149AF2B4D0, Buffers: 3 (2489x1359)
+[Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] State: Going Online...
+[AutoLogin] Simulating Play Online click...
+[AutoLogin] Simulating Login with Steam click...
+[AutoLogin] Simulating Enter World click...
+[Diagnostics] Console cleared!
+[AutoLogin] Simulating Play Online click...
+[AutoLogin] Simulating Login with Steam click...
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] Found 3 character slots:
+  Slot 1: youngest (Combat Lvl 13, Overall Lvl 148)
+  Slot 2: new character (Combat Lvl 1, Overall Lvl 11)
+  Slot 3: New Character (Combat Lvl 1, Overall Lvl 1)
+
+==================================================
+[CRASH] FATAL EXCEPTION CAUGHT!
+[CRASH] Exception Code: 0xe06d7363
+[CRASH] Exception Address: 0x00007FF8A7ED1B6A
+[CRASH] Offset from Game Base: 0x1f6401b6a
+[CRASH] RAX: 0x3ff0000000000000 | RBX: 0x8f837d8b8
+[CRASH] RCX: 0x3ff0000000000000 | RDX: 0x3ff0000000000000
+[CRASH] RSI: 0x1 | RDI: 0xe06d7363
+[CRASH] RBP: 0x4 | RSP: 0x8f837d790
+[CRASH] RIP: 0x7ff8a7ed1b6a
+==================================================
+

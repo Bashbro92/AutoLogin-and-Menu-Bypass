@@ -1,0 +1,44 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 10 2026 18:26:19
+[Diagnostics] Process ID (PID): 27952
+[Diagnostics] Game Base Address: 0x7ff6b1ad0000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FF8003C3390
+[Hooks] Found Present: 0x00007FF8A4B4D7E0
+[Hooks] DX12 Hooks Enabled.
+[Diagnostics] Hooks initialized successfully!
+[KernelMouse] Successfully connected to Kernel Driver[Hooks] Capture.
+[Diagnostid ID3D12CommandQueue: 0xcs] KernelMouse Driver Detected & Ready to us0000021FE3A79D30
+e!
+[[DiagnostiHooks] Attempting to initialize ImGui for DX12...
+c[Hooks] DX12 Device: 0xs] Wa0000021FE6A52EBit0, Buffers: ing 3for End key to unhook...
+
+[Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] Scanned 0 servers!
+[AutoLogin] Please open the Server List in-game first to scan!
+[AutoLogin] Simulating Play Online click...
+[AutoLogin] Simulating Login with Steam click...
+[AutoLogin] Scanned 0 servers!
+[AutoLogin] Please open the Server List in-game first to scan!
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] Discovered Server: Server1 in Region: us-west-1 (IP: 54.176.130.39:7777)
+[AutoLogin] Discovered Server: Server2 in Region: eu-central-1 (IP: 18.184.213.129:7777)
+[AutoLogin] Discovered Server: Server3 in Region: ap-southeast-2 (IP: 3.27.62.11:7777)
+[AutoLogin] Discovered Server: Server5 in Region: eu-central-1 (IP: 3.75.94.173:7777)
+[AutoLogin] Discovered Server: Server6 in Region: us-east-1 (IP: 54.204.236.58:7777)
+[AutoLogin] Discovered Server: Server7 in Region: us-east-1 (IP: 32.195.200.58:7777)
+[AutoLogin] Scanned 6 servers!
+[Diagnostics] Unhooking and shutting down...
+[Diagnostics] Shutting down diagnostics...

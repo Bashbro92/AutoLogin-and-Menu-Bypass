@@ -1,0 +1,2 @@
+@echo off
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$proc = Get-Process -Name 'ProjectSandbox*' -ErrorAction SilentlyContinue | Select-Object -First 1; if ($proc) { Write-Host 'Found Game Process:' $proc.ProcessName '(PID:' $proc.Id ')'; Write-Host 'Launching WinDbg and attaching to the game...'; Start-Process 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\windbg.exe' -ArgumentList '-p', $proc.Id } else { Write-Host 'Game process not found! Make sure the game is running before attaching.'; Read-Host 'Press Enter to exit' }"

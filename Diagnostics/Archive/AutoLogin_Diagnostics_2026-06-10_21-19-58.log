@@ -1,0 +1,34 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 10 2026 18:26:19
+[Diagnostics] Process ID (PID): 13416
+[Diagnostics] Game Base Address: 0x7ff6b1ad0000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FF868D43390
+[Hooks] Found Present: 0x00007FF8A4B4D7E0
+[Hooks] DX12 Hooks Enabled.
+[Diagnostics] Hooks initialized successfully!
+[KernelMouse] Successfully connected to Kernel Driver.
+[Diagnostics] KernelMouse Driver Detected & Ready to use![Hooks] Captured ID3D12CommandQueue: 0x
+0[Diagnosti00001B537993B90
+cs] Waiting [for End key to unhook...
+Hooks] Attempting to initialize ImGui for DX12...
+[Hooks] DX12 Device: 0x000001B57ECA4E60, Buffers: 3
+[Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] Simulating Play Online click...
+[AutoLogin] Simulating Login with Steam click...
+[AutoLogin] Found 3 character slots:
+  Slot 1: youngest (Combat Lvl 13, Overall Lvl 147)
+  Slot 2: new character (Combat Lvl 1, Overall Lvl 11)
+  Slot 3: New Character (Combat Lvl 1, Overall Lvl 1)

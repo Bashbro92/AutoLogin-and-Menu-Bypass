@@ -1,0 +1,46 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 11 2026 00:18:39
+[Diagnostics] Process ID (PID): 23832
+[Diagnostics] Game Base Address: 0x7ff613e60000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FF801EB3390
+[Hooks] Found Present: 0x00007FF8A4B4D7E0
+[Hooks] DX12 Hooks Enabled.
+[[DiagnoHooks] Captured ID3D12CommandQueue:st 0xics] H000001C57EEE8C30
+ooks initial[Hooks] Attempting to initiiazed succelize ssfImGui for DX12...
+u[Hooks] Dlly!
+X12 Device: 0x000001C53ADA7550, Buffers: 3 ([Kernel248Mouse9x1359] Suc)
+cessfully connected to Kernel Driver.
+[Diagnostics] KernelMouse Driver Detected & Ready to use!
+[[DiagnoHookstics] Wais] ImGui DX12 Initialized Successfully!
+ting for End key to unhook...
+[AutoLogin] Simulating Play Online click...
+[AutoLogin] Simulating Login with Steam click...
+[AutoLogin] Selecting Character Index: 0
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] Found 3 character slots:
+  Slot 1: youngest (Combat Lvl 13, Overall Lvl 148)
+  Slot 2: new character (Combat Lvl 1, Overall Lvl 11)
+  Slot 3: New Character (Combat Lvl 1, Overall Lvl 1)
+[AutoLogin] Discovered Server: Server1 in Region: US West (IP: 54.176.130.39:7777)
+[AutoLogin] Discovered Server: Server2 in Region: EU (IP: 18.184.213.129:7777)
+[AutoLogin] Discovered Server: Server3 in Region: AUS (IP: 3.27.62.11:7777)
+[AutoLogin] Discovered Server: Server5 in Region: EU (IP: 3.75.94.173:7777)
+[AutoLogin] Discovered Server: Server6 in Region: US East (IP: 54.204.236.58:7777)
+[AutoLogin] Discovered Server: Server7 in Region: US East (IP: 32.195.200.58:7777)
+[AutoLogin] Scanned 6 servers!
+[AutoLogin] Attempting to join randomly selected server: Server5
+[AutoLogin] Found Server UI Widget! Clicking it...
+[AutoLogin] Returned to Main Menu. Resetting UI state.

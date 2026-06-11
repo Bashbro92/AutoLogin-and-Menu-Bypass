@@ -1,0 +1,41 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 10 2026 18:26:19
+[Diagnostics] Process ID (PID): 20584
+[Diagnostics] Game Base Address: 0x7ff735240000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FFE0B433390
+[Hooks] Found Present: 0x00007FFE61CAD7E0
+[Hooks] DX12 Hooks Enabled.
+[Diagnostics] Hooks initialized successfully![Hooks] Captured ID3D12Comm Waiting for End key to unhook.andQueue: 0x..
+000001CBA5CDE4F0
+[Hooks] Attempting to initialize ImGui for DX12...
+[Hooks] DX12 Device: 0x000001CBA8C94690, Buffers: 3
+[Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] Scanned 0 servers!
+[Diagnostics] Console cleared!
+[Diagnostics] Unhooking and shutting down...
+
+==================================================
+[CRASH] FATAL EXCEPTION CAUGHT!
+[CRASH] Exception Code: 0x8000
+[CRASH] Exception Address: 0x00007FFE64E01B6A
+[CRASH] Offset from Game Base: 0x72fbc1b6a
+[CRASH] RAX: 0x43000a000d000a | RBX: 0x92afb8f8e8
+[CRASH] RCX: 0x6b006300650068 | RDX: 0x67006f006c0020
+[CRASH] RSI: 0x0 | RDI: 0x8000
+[CRASH] RBP: 0x1 | RSP: 0x92afb8f700
+[CRASH] RIP: 0x7ffe64e01b6a
+==================================================
+

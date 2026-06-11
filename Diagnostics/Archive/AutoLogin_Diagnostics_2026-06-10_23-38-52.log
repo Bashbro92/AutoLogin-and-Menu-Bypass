@@ -1,0 +1,50 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 10 2026 22:10:42
+[Diagnostics] Process ID (PID): 38508
+[Diagnostics] Game Base Address: 0x7ff6b1ad0000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FFFF46F3390
+[Hooks] Found Present: 0x00007FF8A4B4D7E0
+[Hooks] Captured ID3D12C[Hooks] DX12 Hooks Enabled.
+ommandQueue: 0x[D000002073BF261E0
+iagnostics] Hooks initialized successfully!
+[Hooks] Attem[KernelMouse] Succepting to initialize ImGui for DX12...
+s[Hsfullooks] DX12 Device: 0xy connected to Kernel Driver.
+000002077E0[Diagnostics] KernelMouse DrDCA00, Buffers: 3 (2489x1359)
+iver Detected & Ready to use!
+[Diagnostics] Waiting for End key to unhook..[Hooks] ImGui DX12 Initializ.
+ed Successfully!
+[AutoLogin] State: Going Online...
+[AutoLogin] Simulating Login with Steam click...
+[AutoLogin] State: Going Online...
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] State: Going Online...
+[AutoLogin] Found 3 character slots:
+  Slot 1: youngest (Combat Lvl 13, Overall Lvl 148)
+  Slot 2: new character (Combat Lvl 1, Overall Lvl 11)
+  Slot 3: New Character (Combat Lvl 1, Overall Lvl 1)
+
+==================================================
+[CRASH] FATAL EXCEPTION CAUGHT!
+[CRASH] Exception Code: 0xe06d7363
+[CRASH] Exception Address: 0x00007FF8A7ED1B6A
+[CRASH] Offset from Game Base: 0x1f6401b6a
+[CRASH] RAX: 0x0 | RBX: 0x887fe3ed88
+[CRASH] RCX: 0x0 | RDX: 0x0
+[CRASH] RSI: 0x1 | RDI: 0xe06d7363
+[CRASH] RBP: 0x4 | RSP: 0x887fe3ec60
+[CRASH] RIP: 0x7ff8a7ed1b6a
+==================================================
+

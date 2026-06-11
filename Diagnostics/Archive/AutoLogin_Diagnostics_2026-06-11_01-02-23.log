@@ -1,0 +1,28 @@
+[Diagnostics] Console and File Logging Allocated Successfully!
+[Diagnostics] Build Version: Jun 11 2026 00:18:39
+[Diagnostics] Process ID (PID): 4656
+[Diagnostics] Game Base Address: 0x7ff613e60000
+[Diagnostics] --- Engine Global Offsets ---
+[Diagnostics] GObjects: 0xa62c060
+[Diagnostics] GWorld: 0xa7b8db8
+[Diagnostics] ProcessEvent: 0x1542580
+[Diagnostics] --- Class Member Offsets ---
+[Diagnostics] AController::Pawn Offset: 0x02F8
+[Diagnostics] APlayerController::AcknowledgedPawn Offset: 0x0360
+[Diagnostics] ACharacter::CharacterMovement Offset: 0x0318
+[Diagnostics] Pointer Validation Check: Enabled.
+[Diagnostics] Vectored Exception Handler installed successfully.
+[Hooks] Resolving Dynamic AOB Signatures...
+[Hooks] Initializing MinHook for DX12...
+[Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
+[Hooks] Found ExecuteCommandLists: 0x00007FF8010D3390
+[Hooks] Found Present: 0x00007FF8A4B4D7E0
+[Hooks] DX12 Hooks Enabled.
+[Diagnostics] Hooks initiali[Hozoks] Captured ID3D12ed sCommandQueuccessfully!ue: 0x
+00[KernelMouse] 0Succe0019904EssfulB5A70
+ly connected to Kerne[Hooks] Attempting to initialil Driveze ImGr.
+[Diagnui for DX12...
+o[Hooksstics] KernelMouse Driver Detected & Ready ] DX12 Devicto use!e: 0x
+0[Diagnostics] Waiting for End key to unhook...
+0000199701E82C0, Buffers: 3 (2489x1359)
+[Hooks] ImGui DX12 Initialized Successfully!
