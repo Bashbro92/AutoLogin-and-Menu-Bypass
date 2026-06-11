@@ -621,311 +621,321 @@ void Boilerplate::DrawUI() {
     ImGui::Begin("Boilerplate Puzzle Window", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
     ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Universal Boilerplate Injected!");
     
-    // Config Section
-    ImGui::Separator();
-    auto config = Config::GetInstance();
-    
-    ImGui::Text("Config Profile:");
-    ImGui::InputText("##ProfileInput", g_CurrentProfileInput, IM_ARRAYSIZE(g_CurrentProfileInput));
-    ImGui::SameLine();
-    if (ImGui::Button("Load")) {
-        g_CurrentProfile = g_CurrentProfileInput;
-        config->Load(g_CurrentProfile);
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Save")) {
-        g_CurrentProfile = g_CurrentProfileInput;
-        config->Save(g_CurrentProfile);
-    }
-    
-    ImGui::Separator();
-    ImGui::Text("Auto Login Tools:");
-    
-    if (ImGui::Checkbox("Enable Background AutoLogin", &config->AutoLoginEnabled)) {
-        if (config->AutoLoginEnabled) {
-            g_ServerStateText = "Not Connected";
-        }
-        config->Save(g_CurrentProfile);
-    }
-    
-    ImGui::Separator();
-    
-    if (ImGui::Button("3. Scan for Servers")) {
-        Boilerplate::GetInstance()->QueueTask([]() {
-            auto serverList = FindWidget<SDK::UW_ServerSlotsList_C>();
-            if (serverList) {
-                std::lock_guard<std::mutex> lock(g_ServersMutex);
-                auto config = Config::GetInstance();
-                config->CachedServers.clear();
-                
-                auto entries = FindWidgets<SDK::UServerSlotEntry>();
-                for (auto* entry : entries) {
-                    std::string name = entry->SlotName.ToString();
-                    std::string rawRegion = entry->Region.ToString();
-                    std::string region = rawRegion;
-                    
-                    if (rawRegion.find("us-west") != std::string::npos) region = "US West";
-                    else if (rawRegion.find("us-east") != std::string::npos) region = "US East";
-                    else if (rawRegion.find("eu-") != std::string::npos) region = "EU";
-                    else if (rawRegion.find("ap-") != std::string::npos) region = "AUS";
-                    else if (rawRegion.find("sa-") != std::string::npos) region = "SA";
-                    
-                    if (!name.empty() && !rawRegion.empty()) {
-                        // Prevent duplicates
-                        bool exists = false;
-                        for (const auto& srv : config->CachedServers) {
-                            if (srv.name == name) { exists = true; break; }
-                        }
-                        if (!exists) {
-                            config->CachedServers.push_back({name, region, entry->ServerIP.ToString()});
-                        }
-                    }
-                }
-                
-                if (!config->CachedServers.empty()) {
-                    g_ServersScanned = true;
-                    config->Save(g_CurrentProfile);
-                    std::cout << "[AutoLogin] Scanned " << config->CachedServers.size() << " servers!" << std::endl;
-                }
-            } else {
-                std::cout << "[AutoLogin] Error: You must be on the Server Selection screen to scan!" << std::endl;
+    if (ImGui::BeginTabBar("BoilerplateTabs")) {
+        if (ImGui::BeginTabItem("Login")) {
+            auto config = Config::GetInstance();
+            
+            // Config Section
+            ImGui::Text("Config Profile:");
+            ImGui::InputText("##ProfileInput", g_CurrentProfileInput, IM_ARRAYSIZE(g_CurrentProfileInput));
+            ImGui::SameLine();
+            if (ImGui::Button("Load")) {
+                g_CurrentProfile = g_CurrentProfileInput;
+                config->Load(g_CurrentProfile);
             }
-        });
-    }
-    
-    std::lock_guard<std::mutex> drawLock(g_ServersMutex);
-    if (!config->CachedServers.empty()) {
-        std::vector<std::string> regions;
-        for (const auto& srv : config->CachedServers) {
-            if (std::find(regions.begin(), regions.end(), srv.region) == regions.end()) {
-                regions.push_back(srv.region);
-            }
-        }
-        
-        ImGui::Text("Region Filter:");
-        if (ImGui::BeginCombo("##RegionFilter", config->SelectedRegion.empty() ? "Any Region" : config->SelectedRegion.c_str())) {
-            if (ImGui::Selectable("Any Region", config->SelectedRegion.empty())) {
-                config->SelectedRegion = "";
+            ImGui::SameLine();
+            if (ImGui::Button("Save")) {
+                g_CurrentProfile = g_CurrentProfileInput;
                 config->Save(g_CurrentProfile);
-            }
-            for (const auto& reg : regions) {
-                if (ImGui::Selectable(reg.c_str(), config->SelectedRegion == reg)) {
-                    config->SelectedRegion = reg;
-                    config->Save(g_CurrentProfile);
-                }
-            }
-            ImGui::EndCombo();
-        }
-        
-        ImGui::Text("Specific Server Filter (Optional):");
-        
-        if (ImGui::Button("Clear All Filters")) {
-            config->ServerCheckboxes.clear();
-            config->Save(g_CurrentProfile);
-        }
-        
-        for (const auto& srv : config->CachedServers) {
-            if (config->SelectedRegion.empty() || srv.region == config->SelectedRegion) {
-                std::string label;
-                if (config->SelectedRegion.empty()) {
-                    label = srv.name + " (" + srv.region + ")##" + srv.name;
-                } else {
-                    label = srv.name + "##" + srv.name;
-                }
-                
-                if (ImGui::Checkbox(label.c_str(), &config->ServerCheckboxes[srv.name])) {
-                    config->Save(g_CurrentProfile);
-                }
-            }
-        }
-    }
-    
-    ImGui::Separator();
-    
-    if (ImGui::Button("1. Play Online")) {
-        Boilerplate::GetInstance()->QueueTask([]() {
-            auto widget = FindWidget<SDK::UW_MainMenu_C>();
-            if (widget) {
-                g_ServerStateText = "Going Online";
-                std::cout << "[AutoLogin] Simulating Play Online click..." << std::endl;
-                widget->BndEvt__W_MainMenu_PlayOnlineButton_K2Node_ComponentBoundEvent_0_CommonButtonBaseClicked__DelegateSignature(nullptr);
-            } else {
-                std::cout << "[AutoLogin] W_MainMenu_C not found!" << std::endl;
-            }
-        });
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("2. Login (Steam)")) {
-        Boilerplate::GetInstance()->QueueTask([]() {
-            auto widget = FindWidget<SDK::UW_LogIn_C>();
-            if (widget) {
-                g_ServerStateText = "Heading to Character Selection";
-                std::cout << "[AutoLogin] Simulating Login with Steam click..." << std::endl;
-                widget->BndEvt__W_LogIn_LoginWithSteamButton_K2Node_ComponentBoundEvent_8_CommonButtonBaseClicked__DelegateSignature(nullptr);
-            } else {
-                std::cout << "[AutoLogin] W_LogIn_C not found!" << std::endl;
-            }
-        });
-    }
-    
-    // Character Selection
-    if (ImGui::Button("3. Enter World")) {
-        Boilerplate::GetInstance()->QueueTask([]() {
-            auto widget = FindWidget<SDK::UW_CharacterSelection_C>();
-            if (widget) {
-                auto config = Config::GetInstance();
-                int count = widget->Characters.Num();
-                if (config->SelectedCharacterSlot >= 0 && config->SelectedCharacterSlot < count && widget->CharactersListView) {
-                    std::cout << "[AutoLogin] Selecting Character Index: " << config->SelectedCharacterSlot << std::endl;
-                    auto* charData = widget->Characters[config->SelectedCharacterSlot];
-                    if (charData) {
-                        widget->CharactersListView->BP_SetSelectedItem(charData);
-                    }
-                }
-                
-                g_ServerStateText = "Picking Servers";
-                std::cout << "[AutoLogin] Simulating Enter World click..." << std::endl;
-                widget->BndEvt__W_CharacterSelection_PlayButton_K2Node_ComponentBoundEvent_5_CommonButtonBaseClicked__DelegateSignature(nullptr);
-            } else {
-                std::cout << "[AutoLogin] W_CharacterSelection_C not found!" << std::endl;
-            }
-        });
-    }
-    
-    ImGui::SameLine();
-    if (ImGui::Button("Scan Characters")) {
-        Boilerplate::GetInstance()->QueueTask([]() {
-            auto widget = FindWidget<SDK::UW_CharacterSelection_C>();
-            if (widget) {
-                int count = widget->Characters.Num();
-                std::cout << "[AutoLogin] Found " << count << " character slots:" << std::endl;
-                
-                auto config = Config::GetInstance();
-                {
-                    std::lock_guard<std::recursive_mutex> lock(config->ConfigMutex);
-                    config->CachedCharacters.clear();
-                    
-                    for (int i = 0; i < count; ++i) {
-                        auto* charData = widget->Characters[i];
-                        if (charData) {
-                            CharacterCacheData data;
-                            data.Name = charData->Data.CharacterName.ToString();
-                            data.CombatLevel = charData->Summary.CombatLevel;
-                            data.OverallLevel = charData->Summary.OverallLevel;
-                            data.OriginalSlotIndex = i;
-                            data.Label = data.Name + " (Cb:" + std::to_string(data.CombatLevel) + " Total:" + std::to_string(data.OverallLevel) + ")";
-                            
-                            config->CachedCharacters.push_back(data);
-                            
-                            std::cout << "  Slot " << i + 1 << ": " << data.Name 
-                                      << " (Combat Lvl " << data.CombatLevel << ", Overall Lvl " << data.OverallLevel << ")" << std::endl;
-                        }
-                    }
-                }
-                config->Save(g_CurrentProfile);
-            } else {
-                std::cout << "[AutoLogin] W_CharacterSelection_C not found! Open the character screen first." << std::endl;
-            }
-        });
-    }
-    
-    {
-        std::lock_guard<std::recursive_mutex> drawLock(config->ConfigMutex);
-        if (!config->CachedCharacters.empty()) {
-            ImGui::Text("Select Character to Auto-Login:");
-            std::string previewValue = "Select Character";
-            for (const auto& c : config->CachedCharacters) {
-                if (c.OriginalSlotIndex == config->SelectedCharacterSlot) {
-                    previewValue = c.Label;
-                    break;
-                }
             }
             
-            if (ImGui::BeginCombo("##CharacterSelect", previewValue.c_str())) {
-                for (const auto& c : config->CachedCharacters) {
-                    bool isSelected = (config->SelectedCharacterSlot == c.OriginalSlotIndex);
-                    if (ImGui::Selectable(c.Label.c_str(), isSelected)) {
-                        config->SelectedCharacterSlot = c.OriginalSlotIndex;
-                        config->Save(g_CurrentProfile);
-                    }
-                    if (isSelected) ImGui::SetItemDefaultFocus();
+            ImGui::Separator();
+            ImGui::Text("Auto Login Tools:");
+            
+            if (ImGui::Checkbox("Enable Background AutoLogin", &config->AutoLoginEnabled)) {
+                if (config->AutoLoginEnabled) {
+                    g_ServerStateText = "Not Connected";
                 }
-                ImGui::EndCombo();
+                config->Save(g_CurrentProfile);
             }
-        }
-    }
-    
-    if (ImGui::Button("4. Select Server")) {
-        Boilerplate::GetInstance()->QueueTask([]() {
-            std::vector<ServerDef> candidates;
+            
             {
-                std::lock_guard<std::mutex> lock(g_ServersMutex);
-                auto config = Config::GetInstance();
-                for (const auto& srv : config->CachedServers) {
-                    if (config->SelectedRegion.empty() || srv.region == config->SelectedRegion) {
-                        if (config->ServerCheckboxes[srv.name]) {
-                            candidates.push_back(srv);
-                        }
-                    }
-                }
-                
-                // Fallback to any valid region if none checked
-                if (candidates.empty()) {
+                std::lock_guard<std::mutex> drawLock(g_ServersMutex);
+                if (!config->CachedServers.empty()) {
+                    ImGui::Separator();
+                    std::vector<std::string> regions;
                     for (const auto& srv : config->CachedServers) {
-                        if (config->SelectedRegion.empty() || srv.region == config->SelectedRegion) {
-                            candidates.push_back(srv);
+                        if (std::find(regions.begin(), regions.end(), srv.region) == regions.end()) {
+                            regions.push_back(srv.region);
                         }
                     }
-                }
-            }
-            
-            if (!candidates.empty()) {
-                ServerDef targetServer = candidates[rand() % candidates.size()];
-                std::cout << "[AutoLogin] Attempting to join randomly selected server: " << targetServer.name << std::endl;
-                
-                g_JoinedServerName = targetServer.name;
-                g_JoinedServerIP = targetServer.ip;
-                g_JoinedServerRegion = targetServer.region;
-                
-                auto entryWidgets = FindWidgets<SDK::UW_ServerSlotEntry_C>();
-                bool found = false;
-                
-                for (auto* entryWidget : entryWidgets) {
-                    if (entryWidget->ServerSlotName.ToString() == targetServer.name) {
-                        std::cout << "[AutoLogin] Found Server UI Widget! Clicking it..." << std::endl;
-                        if (auto serverList = FindWidget<SDK::UW_ServerSlotsList_C>()) {
-                            if (serverList->ServerSlotListView && entryWidget->As_Server_Slot_Entry) {
-                                serverList->ServerSlotListView->BP_SetSelectedItem(entryWidget->As_Server_Slot_Entry);
+                    
+                    ImGui::Text("Region Filter:");
+                    if (ImGui::BeginCombo("##RegionFilter", config->SelectedRegion.empty() ? "Any Region" : config->SelectedRegion.c_str())) {
+                        if (ImGui::Selectable("Any Region", config->SelectedRegion.empty())) {
+                            config->SelectedRegion = "";
+                            config->Save(g_CurrentProfile);
+                        }
+                        for (const auto& reg : regions) {
+                            if (ImGui::Selectable(reg.c_str(), config->SelectedRegion == reg)) {
+                                config->SelectedRegion = reg;
+                                config->Save(g_CurrentProfile);
                             }
                         }
-                        SDK::UFunction* clickFunc = entryWidget->Class->GetFunction("W_ServerSlotEntry_C", "Click");
-                        if (clickFunc) {
-                            entryWidget->ProcessEvent(clickFunc, nullptr);
-                            found = true;
+                        ImGui::EndCombo();
+                    }
+                    
+                    ImGui::Text("Specific Server Filter (Optional):");
+                    
+                    if (ImGui::Button("Clear All Filters")) {
+                        config->ServerCheckboxes.clear();
+                        config->Save(g_CurrentProfile);
+                    }
+                    
+                    for (const auto& srv : config->CachedServers) {
+                        if (config->SelectedRegion.empty() || srv.region == config->SelectedRegion) {
+                            std::string label;
+                            if (config->SelectedRegion.empty()) {
+                                label = srv.name + " (" + srv.region + ")##" + srv.name;
+                            } else {
+                                label = srv.name + "##" + srv.name;
+                            }
+                            
+                            if (ImGui::Checkbox(label.c_str(), &config->ServerCheckboxes[srv.name])) {
+                                config->Save(g_CurrentProfile);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            {
+                std::lock_guard<std::recursive_mutex> drawLockChar(config->ConfigMutex);
+                if (!config->CachedCharacters.empty()) {
+                    ImGui::Separator();
+                    ImGui::Text("Select Character to Auto-Login:");
+                    std::string previewValue = "Select Character";
+                    for (const auto& c : config->CachedCharacters) {
+                        if (c.OriginalSlotIndex == config->SelectedCharacterSlot) {
+                            previewValue = c.Label;
                             break;
                         }
                     }
+                    
+                    if (ImGui::BeginCombo("##CharacterSelect", previewValue.c_str())) {
+                        for (const auto& c : config->CachedCharacters) {
+                            bool isSelected = (config->SelectedCharacterSlot == c.OriginalSlotIndex);
+                            if (ImGui::Selectable(c.Label.c_str(), isSelected)) {
+                                config->SelectedCharacterSlot = c.OriginalSlotIndex;
+                                config->Save(g_CurrentProfile);
+                            }
+                            if (isSelected) ImGui::SetItemDefaultFocus();
+                        }
+                        ImGui::EndCombo();
+                    }
                 }
-                
-                if (!found) {
-                    std::cout << "[AutoLogin] Could not find the UI widget for " << targetServer.name << std::endl;
-                    std::cout << "[AutoLogin] Please ensure the server is visible in the scroll list before clicking Select Server!" << std::endl;
-                }
-            } else {
-                std::cout << "[AutoLogin] No valid servers found matching the criteria!" << std::endl;
             }
-        });
-    }
-    
-    ImGui::Separator();
-    
-    if (ImGui::Button("Test Logic Button")) {
-        // Test logic
-    }
-    
-    ImGui::SameLine();
-    if (ImGui::Button("Clear Console")) {
-        Diagnostics::ClearConsole();
+            
+            ImGui::EndTabItem();
+        }
+        
+        if (ImGui::BeginTabItem("Diagnostics")) {
+            if (ImGui::Button("1. Play Online")) {
+                Boilerplate::GetInstance()->QueueTask([]() {
+                    auto widget = FindWidget<SDK::UW_MainMenu_C>();
+                    if (widget) {
+                        g_ServerStateText = "Going Online";
+                        std::cout << "[AutoLogin] Simulating Play Online click..." << std::endl;
+                        widget->BndEvt__W_MainMenu_PlayOnlineButton_K2Node_ComponentBoundEvent_0_CommonButtonBaseClicked__DelegateSignature(nullptr);
+                    } else {
+                        std::cout << "[AutoLogin] W_MainMenu_C not found!" << std::endl;
+                    }
+                });
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("2. Login (Steam)")) {
+                Boilerplate::GetInstance()->QueueTask([]() {
+                    auto widget = FindWidget<SDK::UW_LogIn_C>();
+                    if (widget) {
+                        g_ServerStateText = "Heading to Character Selection";
+                        std::cout << "[AutoLogin] Simulating Login with Steam click..." << std::endl;
+                        widget->BndEvt__W_LogIn_LoginWithSteamButton_K2Node_ComponentBoundEvent_8_CommonButtonBaseClicked__DelegateSignature(nullptr);
+                    } else {
+                        std::cout << "[AutoLogin] W_LogIn_C not found!" << std::endl;
+                    }
+                });
+            }
+            
+            if (ImGui::Button("3. Enter World")) {
+                Boilerplate::GetInstance()->QueueTask([]() {
+                    auto widget = FindWidget<SDK::UW_CharacterSelection_C>();
+                    if (widget) {
+                        auto config = Config::GetInstance();
+                        int count = widget->Characters.Num();
+                        if (config->SelectedCharacterSlot >= 0 && config->SelectedCharacterSlot < count && widget->CharactersListView) {
+                            std::cout << "[AutoLogin] Selecting Character Index: " << config->SelectedCharacterSlot << std::endl;
+                            auto* charData = widget->Characters[config->SelectedCharacterSlot];
+                            if (charData) {
+                                widget->CharactersListView->BP_SetSelectedItem(charData);
+                            }
+                        }
+                        
+                        g_ServerStateText = "Picking Servers";
+                        std::cout << "[AutoLogin] Simulating Enter World click..." << std::endl;
+                        widget->BndEvt__W_CharacterSelection_PlayButton_K2Node_ComponentBoundEvent_5_CommonButtonBaseClicked__DelegateSignature(nullptr);
+                    } else {
+                        std::cout << "[AutoLogin] W_CharacterSelection_C not found!" << std::endl;
+                    }
+                });
+            }
+            
+            ImGui::SameLine();
+            if (ImGui::Button("Scan Characters")) {
+                Boilerplate::GetInstance()->QueueTask([]() {
+                    auto widget = FindWidget<SDK::UW_CharacterSelection_C>();
+                    if (widget) {
+                        int count = widget->Characters.Num();
+                        std::cout << "[AutoLogin] Found " << count << " character slots:" << std::endl;
+                        
+                        auto config = Config::GetInstance();
+                        {
+                            std::lock_guard<std::recursive_mutex> lock(config->ConfigMutex);
+                            config->CachedCharacters.clear();
+                            
+                            for (int i = 0; i < count; ++i) {
+                                auto* charData = widget->Characters[i];
+                                if (charData) {
+                                    CharacterCacheData data;
+                                    data.Name = charData->Data.CharacterName.ToString();
+                                    data.CombatLevel = charData->Summary.CombatLevel;
+                                    data.OverallLevel = charData->Summary.OverallLevel;
+                                    data.OriginalSlotIndex = i;
+                                    data.Label = data.Name + " (Cb:" + std::to_string(data.CombatLevel) + " Total:" + std::to_string(data.OverallLevel) + ")";
+                                    
+                                    config->CachedCharacters.push_back(data);
+                                    
+                                    std::cout << "  Slot " << i + 1 << ": " << data.Name 
+                                              << " (Combat Lvl " << data.CombatLevel << ", Overall Lvl " << data.OverallLevel << ")" << std::endl;
+                                }
+                            }
+                        }
+                        config->Save(g_CurrentProfile);
+                    } else {
+                        std::cout << "[AutoLogin] W_CharacterSelection_C not found! Open the character screen first." << std::endl;
+                    }
+                });
+            }
+            
+            if (ImGui::Button("3. Scan for Servers")) {
+                Boilerplate::GetInstance()->QueueTask([]() {
+                    auto serverList = FindWidget<SDK::UW_ServerSlotsList_C>();
+                    if (serverList) {
+                        std::lock_guard<std::mutex> lock(g_ServersMutex);
+                        auto config = Config::GetInstance();
+                        config->CachedServers.clear();
+                        
+                        auto entries = FindWidgets<SDK::UServerSlotEntry>();
+                        for (auto* entry : entries) {
+                            std::string name = entry->SlotName.ToString();
+                            std::string rawRegion = entry->Region.ToString();
+                            std::string region = rawRegion;
+                            
+                            if (rawRegion.find("us-west") != std::string::npos) region = "US West";
+                            else if (rawRegion.find("us-east") != std::string::npos) region = "US East";
+                            else if (rawRegion.find("eu-") != std::string::npos) region = "EU";
+                            else if (rawRegion.find("ap-") != std::string::npos) region = "AUS";
+                            else if (rawRegion.find("sa-") != std::string::npos) region = "SA";
+                            
+                            if (!name.empty() && !rawRegion.empty()) {
+                                // Prevent duplicates
+                                bool exists = false;
+                                for (const auto& srv : config->CachedServers) {
+                                    if (srv.name == name) { exists = true; break; }
+                                }
+                                if (!exists) {
+                                    config->CachedServers.push_back({name, region, entry->ServerIP.ToString()});
+                                }
+                            }
+                        }
+                        
+                        if (!config->CachedServers.empty()) {
+                            g_ServersScanned = true;
+                            config->Save(g_CurrentProfile);
+                            std::cout << "[AutoLogin] Scanned " << config->CachedServers.size() << " servers!" << std::endl;
+                        }
+                    } else {
+                        std::cout << "[AutoLogin] Error: You must be on the Server Selection screen to scan!" << std::endl;
+                    }
+                });
+            }
+            
+            if (ImGui::Button("4. Select Server")) {
+                Boilerplate::GetInstance()->QueueTask([]() {
+                    std::vector<ServerDef> candidates;
+                    {
+                        std::lock_guard<std::mutex> lock(g_ServersMutex);
+                        auto config = Config::GetInstance();
+                        for (const auto& srv : config->CachedServers) {
+                            if (config->SelectedRegion.empty() || srv.region == config->SelectedRegion) {
+                                if (config->ServerCheckboxes[srv.name]) {
+                                    candidates.push_back(srv);
+                                }
+                            }
+                        }
+                        
+                        // Fallback to any valid region if none checked
+                        if (candidates.empty()) {
+                            for (const auto& srv : config->CachedServers) {
+                                if (config->SelectedRegion.empty() || srv.region == config->SelectedRegion) {
+                                    candidates.push_back(srv);
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (!candidates.empty()) {
+                        ServerDef targetServer = candidates[rand() % candidates.size()];
+                        std::cout << "[AutoLogin] Attempting to join randomly selected server: " << targetServer.name << std::endl;
+                        
+                        g_JoinedServerName = targetServer.name;
+                        g_JoinedServerIP = targetServer.ip;
+                        g_JoinedServerRegion = targetServer.region;
+                        
+                        auto entryWidgets = FindWidgets<SDK::UW_ServerSlotEntry_C>();
+                        bool found = false;
+                        
+                        for (auto* entryWidget : entryWidgets) {
+                            if (entryWidget->ServerSlotName.ToString() == targetServer.name) {
+                                std::cout << "[AutoLogin] Found Server UI Widget! Clicking it..." << std::endl;
+                                if (auto serverList = FindWidget<SDK::UW_ServerSlotsList_C>()) {
+                                    if (serverList->ServerSlotListView && entryWidget->As_Server_Slot_Entry) {
+                                        serverList->ServerSlotListView->BP_SetSelectedItem(entryWidget->As_Server_Slot_Entry);
+                                    }
+                                }
+                                SDK::UFunction* clickFunc = entryWidget->Class->GetFunction("W_ServerSlotEntry_C", "Click");
+                                if (clickFunc) {
+                                    entryWidget->ProcessEvent(clickFunc, nullptr);
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        if (!found) {
+                            std::cout << "[AutoLogin] Could not find the UI widget for " << targetServer.name << std::endl;
+                            std::cout << "[AutoLogin] Please ensure the server is visible in the scroll list before clicking Select Server!" << std::endl;
+                        }
+                    } else {
+                        std::cout << "[AutoLogin] No valid servers found matching the criteria!" << std::endl;
+                    }
+                });
+            }
+            
+            ImGui::Separator();
+            
+            if (ImGui::Button("Test Logic Button")) {
+                // Test logic
+            }
+            
+            ImGui::SameLine();
+            if (ImGui::Button("Clear Console")) {
+                Diagnostics::ClearConsole();
+            }
+            
+            ImGui::EndTabItem();
+        }
+        
+        ImGui::EndTabBar();
     }
     
     ImGui::End();
