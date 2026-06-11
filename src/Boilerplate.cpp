@@ -489,6 +489,20 @@ static bool SafeIsInViewport(SDK::UUserWidget* widget) {
     }
 }
 
+static bool IsActivatableWidgetActive(SDK::UUserWidget* widget) {
+    __try {
+        if (!widget) return false;
+        if (widget->IsA(SDK::UCommonActivatableWidget::StaticClass())) {
+            auto* activatable = static_cast<SDK::UCommonActivatableWidget*>(widget);
+            return activatable->bIsActive;
+        }
+        // Fallback: If it's not a CommonActivatableWidget, assume active if visible and in viewport
+        return IsWidgetVisible(widget) && SafeIsInViewport(widget);
+    } __except(EXCEPTION_EXECUTE_HANDLER) {
+        return false;
+    }
+}
+
 void Boilerplate::DrawUI() {
     // This runs in the ImGui DX12 hook loop
     Update();
@@ -511,7 +525,7 @@ void Boilerplate::DrawUI() {
                         std::string name = Obj->GetName();
                         if (name.find("W_EscapeMenu") != std::string::npos) {
                             auto* widget = static_cast<SDK::UUserWidget*>(Obj);
-                            if (IsWidgetVisible(widget) && SafeIsInViewport(widget)) {
+                            if (IsActivatableWidgetActive(widget)) {
                                 isVisible = true;
                                 break;
                             }

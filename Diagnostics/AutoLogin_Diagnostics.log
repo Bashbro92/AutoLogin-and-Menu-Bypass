@@ -1,6 +1,6 @@
 [Diagnostics] Console and File Logging Allocated Successfully!
 [Diagnostics] Build Version: Jun 11 2026 00:58:27
-[Diagnostics] Process ID (PID): 2832
+[Diagnostics] Process ID (PID): 7596
 [Diagnostics] Game Base Address: 0x7ff613e60000
 [Diagnostics] --- Engine Global Offsets ---
 [Diagnostics] GObjects: 0xa62c060
@@ -15,16 +15,16 @@
 [Hooks] Resolving Dynamic AOB Signatures...
 [Hooks] Initializing MinHook for DX12...
 [Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
-[Hooks] Found ExecuteCommandLists: 0x00007FF811A73390
+[Hooks] Found ExecuteCommandLists: 0x00007FF800503390
 [Hooks] Found Present: 0x00007FF8A4B4D7E0
-[Hooks[Hooks] Captured ID3D12CommandQueue: 0x] DX12 Hooks Enabled.000001E074041CE0
-
-[Hooks][Diagnostics] Hooks Attempting to init initialized successfully!
-ialize ImGui for DX12...
-[[Hooks] DX12 DevKerneilMouse] Successfullyce: 0x connected to Kernel Driver.
-[Diagnostics] KernelMouse Driver Detected & Ready to use!
-0[Diagnostics] Waiting for End key to 00001E074487E70, Buffers: unhook...
-3 (2489x1359)
+[Hooks] DX12 Hooks Enabled.
+[[Diagnostics] Hooks iHooks] Captured ID3D12CommandQueue: 0xnitialized successfully!
+000[KernelMouse] Successfully connected to Kernel Driver.
+001D4F7930570
+[Diagnostics] KernelMouse Driv[Hooks] Attempting to initialer Deize ImGui for DX12...tected & 
+R[Hooks] DX12 Deviceady to use!
+e[Diagnostics] Waiting for End ke: 0xy to unhook...
+000001D4FA9924B0, Buffers: 3 (2489x1359)
 [Hooks] ImGui DX12 Initialized Successfully!
 [AutoLogin] State: Going Online...
 [AutoLogin] State: Heading to Character Selection...
@@ -32,10 +32,3 @@ ialize ImGui for DX12...
 [AutoLogin] Auto-Scanned 6 servers!
 [AutoLogin] State: Connecting to Server6
 [AutoLogin] State: Connected! Successfully loaded into game world.
-[AutoLogin] Selecting Character Index: 0
-[AutoLogin] Simulating Change Servers click from Escape Menu...
-[AutoLogin] State: Connected! Successfully loaded into game world.
-[Diagnostics] Console cleared!
-[Diagnostics] Console cleared!
-[Diagnostics] Console cleared!
-[Diagnostics] Console cleared!
