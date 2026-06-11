@@ -196,6 +196,7 @@ static const char* regions[] = { "Any", "US West", "US East", "EU", "AUS" };
 static std::string g_ServerStateText = "Not Connected";
 static bool g_ServersScanned = false;
 static std::mutex g_ServersMutex;
+static bool g_EscapeMenuVisible = false;
 
 // OSD & Ping Globals
 static std::string g_JoinedServerName = "";
@@ -482,6 +483,69 @@ void Boilerplate::Update() {
 void Boilerplate::DrawUI() {
     // This runs in the ImGui DX12 hook loop
     Update();
+    
+    // Poll for Escape Menu visibility every 1 second safely on the GameThread
+    static auto lastEscapeCheckTime = std::chrono::steady_clock::now();
+    auto now = std::chrono::steady_clock::now();
+    if (std::chrono::duration_cast<std::chrono::milliseconds>(now - lastEscapeCheckTime).count() > 1000) {
+        lastEscapeCheckTime = now;
+        QueueTask([]() {
+            static SDK::UClass* escapeMenuClass = nullptr;
+            static bool attemptedToFindClass = false;
+
+            if (!attemptedToFindClass && !escapeMenuClass) {
+                escapeMenuClass = SDK::UObject::FindClassFast("W_EscapeMenu_C");
+                attemptedToFindClass = true;
+            }
+
+            bool isVisible = false;
+            if (escapeMenuClass && SDK::UObject::GObjects) {
+                int numObjects = SDK::UObject::GObjects->Num();
+                for (int i = 0; i < numObjects; ++i) {
+                    SDK::UObject* Obj = SDK::UObject::GObjects->GetByIndex(i);
+                    if (!Obj || Obj->IsDefaultObject()) continue;
+                    
+                    if (Obj->IsA(escapeMenuClass)) {
+                        auto* widget = static_cast<SDK::UUserWidget*>(Obj);
+                        if (IsWidgetVisible(widget)) {
+                            isVisible = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            g_EscapeMenuVisible = isVisible;
+        });
+    }
+
+    if (g_EscapeMenuVisible) {
+        ImGui::SetNextWindowPos(ImVec2(10, ImGui::GetIO().DisplaySize.y - 10), ImGuiCond_Always, ImVec2(0.0f, 1.0f));
+        ImGui::SetNextWindowBgAlpha(0.8f);
+        if (ImGui::Begin("EscapeMenuOverlay", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings)) {
+            if (ImGui::Button("Change Servers", ImVec2(200, 60))) {
+                QueueTask([]() {
+                    auto widget = FindWidget<SDK::UW_CharacterSelection_C>();
+                    if (widget) {
+                        auto config = Config::GetInstance();
+                        int count = widget->Characters.Num();
+                        if (config->SelectedCharacterSlot >= 0 && config->SelectedCharacterSlot < count && widget->CharactersListView) {
+                            std::cout << "[AutoLogin] Selecting Character Index: " << config->SelectedCharacterSlot << std::endl;
+                            auto* charData = widget->Characters[config->SelectedCharacterSlot];
+                            if (charData) {
+                                widget->CharactersListView->BP_SetSelectedItem(charData);
+                            }
+                        }
+                        g_ServerStateText = "Picking Servers";
+                        std::cout << "[AutoLogin] Simulating Change Servers click from Escape Menu..." << std::endl;
+                        widget->BndEvt__W_CharacterSelection_PlayButton_K2Node_ComponentBoundEvent_5_CommonButtonBaseClicked__DelegateSignature(nullptr);
+                    } else {
+                        std::cout << "[AutoLogin] W_CharacterSelection_C not found in memory! Cannot change servers." << std::endl;
+                    }
+                });
+            }
+            ImGui::End();
+        }
+    }
     
     // --- OSD Optics Overlay ---
     ImGui::SetNextWindowPos(ImVec2(10.0f, 10.0f), ImGuiCond_Always);

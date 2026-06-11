@@ -1,6 +1,6 @@
 [Diagnostics] Console and File Logging Allocated Successfully!
 [Diagnostics] Build Version: Jun 11 2026 00:58:27
-[Diagnostics] Process ID (PID): 39884
+[Diagnostics] Process ID (PID): 40496
 [Diagnostics] Game Base Address: 0x7ff613e60000
 [Diagnostics] --- Engine Global Offsets ---
 [Diagnostics] GObjects: 0xa62c060
@@ -15,14 +15,30 @@
 [Hooks] Resolving Dynamic AOB Signatures...
 [Hooks] Initializing MinHook for DX12...
 [Hooks] Waiting for d3d12.dll and dxgi.dll to be loaded...
-[Hooks] Found ExecuteCommandLists: 0x00007FF801EB3390
+[Hooks] Found ExecuteCommandLists: 0x00007FF811553390
 [Hooks] Found Present: 0x00007FF8A4B4D7E0
-[Hooks] DX12 Hooks Enabled.[Hooks] Captured 
-I[Diagnostics] Hooks initialiD3D12CommandQzed sueue: 0xu000002151FACD3D0
-ccessfully!
-[Hooks] Attemptin[gKernelMouse] Successfully connected to Kernel Drive to initialize ImGui for DX12...
-r[Hooks] DX12 Device: 0x.
-[Diagnostics] KernelM000002152294Bouse Driver Detected & Ready to use!
-5[DiagnostE0, Buffics] Waiting for End key to unhook...ers: 3 (2489
-x1359)
+[Hooks] DX12 Hooks Enabled.
+[Hooks] Captured ID3D12CommandQueue: 0x[Diagnostics] Hooks initialized successf000001E868161330
+ully!
+[KernelMouse] Successfully connected to Kernel Driver.
+[Diagnostics] KernelM[Hooks] Attempting to initialize ImGui ouse Driver Detected & Ready to use!
+f[Diagnostics] Wor DX12...
+a[Hooks] DX12 Deiting for End key to unhook...
+vice: 0x000001E85FF7D0F0, Buffers: 3 (2489x1359)
 [Hooks] ImGui DX12 Initialized Successfully!
+[AutoLogin] State: Going Online...
+[AutoLogin] State: Heading to Character Selection...
+[AutoLogin] State: Picking Servers...
+[AutoLogin] Auto-Scanned 6 servers!
+[AutoLogin] State: Connecting to Server1
+[AutoLogin] State: Connected! Successfully loaded into game world.
+[AutoLogin] Selecting Character Index: 0
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] State: Connected! Successfully loaded into game world.
+[AutoLogin] Selecting Character Index: 0
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] State: Connected! Successfully loaded into game world.
+[AutoLogin] Selecting Character Index: 0
+[AutoLogin] Simulating Enter World click...
+[AutoLogin] State: Connected! Successfully loaded into game world.
+[Diagnostics] Console cleared!
