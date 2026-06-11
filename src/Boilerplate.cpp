@@ -490,26 +490,22 @@ void Boilerplate::DrawUI() {
     if (std::chrono::duration_cast<std::chrono::milliseconds>(now - lastEscapeCheckTime).count() > 1000) {
         lastEscapeCheckTime = now;
         QueueTask([]() {
-            static SDK::UClass* escapeMenuClass = nullptr;
-            static bool attemptedToFindClass = false;
-
-            if (!attemptedToFindClass && !escapeMenuClass) {
-                escapeMenuClass = SDK::UObject::FindClassFast("W_EscapeMenu_C");
-                attemptedToFindClass = true;
-            }
-
             bool isVisible = false;
-            if (escapeMenuClass && SDK::UObject::GObjects) {
+            if (SDK::UObject::GObjects) {
                 int numObjects = SDK::UObject::GObjects->Num();
                 for (int i = 0; i < numObjects; ++i) {
                     SDK::UObject* Obj = SDK::UObject::GObjects->GetByIndex(i);
                     if (!Obj || Obj->IsDefaultObject()) continue;
                     
-                    if (Obj->IsA(escapeMenuClass)) {
-                        auto* widget = static_cast<SDK::UUserWidget*>(Obj);
-                        if (IsWidgetVisible(widget)) {
-                            isVisible = true;
-                            break;
+                    // Only check UserWidgets to avoid heavy string operations on 2 million objects
+                    if (Obj->IsA(SDK::UUserWidget::StaticClass())) {
+                        std::string name = Obj->GetName();
+                        if (name.find("W_EscapeMenu") != std::string::npos) {
+                            auto* widget = static_cast<SDK::UUserWidget*>(Obj);
+                            if (IsWidgetVisible(widget)) {
+                                isVisible = true;
+                                break;
+                            }
                         }
                     }
                 }
