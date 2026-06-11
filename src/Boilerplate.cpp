@@ -480,6 +480,15 @@ void Boilerplate::Update() {
     }
 }
 
+static bool SafeIsInViewport(SDK::UUserWidget* widget) {
+    __try {
+        if (!widget) return false;
+        return widget->IsInViewport();
+    } __except(EXCEPTION_EXECUTE_HANDLER) {
+        return false;
+    }
+}
+
 void Boilerplate::DrawUI() {
     // This runs in the ImGui DX12 hook loop
     Update();
@@ -502,7 +511,7 @@ void Boilerplate::DrawUI() {
                         std::string name = Obj->GetName();
                         if (name.find("W_EscapeMenu") != std::string::npos) {
                             auto* widget = static_cast<SDK::UUserWidget*>(Obj);
-                            if (IsWidgetVisible(widget)) {
+                            if (IsWidgetVisible(widget) && SafeIsInViewport(widget)) {
                                 isVisible = true;
                                 break;
                             }
