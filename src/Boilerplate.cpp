@@ -232,7 +232,7 @@ static void PingThreadWorker() {
     char ReplyBuffer[sizeof(ICMP_ECHO_REPLY) + 32];
     
     while (g_PingThreadRunning) {
-        if (g_JoinedServerIP != "127.0.0.1" && g_JoinedServerIP != "None") {
+        if (!g_JoinedServerIP.empty() && g_JoinedServerIP != "127.0.0.1" && g_JoinedServerIP != "None") {
             // Extract IP before port
             std::string ipOnly = g_JoinedServerIP;
             size_t colonPos = ipOnly.find(':');
@@ -249,7 +249,11 @@ static void PingThreadWorker() {
                 } else {
                     g_CurrentPing = -1;
                 }
+            } else {
+                g_CurrentPing = -1;
             }
+        } else {
+            g_CurrentPing = -1;
         }
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
