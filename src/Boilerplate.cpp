@@ -337,11 +337,75 @@ void Boilerplate::Update() {
 
                 if (!config->AutoLoginEnabled) return;
 
-            // State 4: Server Selection
-            if (auto serverList = FindWidget<SDK::UW_ServerSlotsList_C>()) {
-                if (IsWidgetVisible(serverList)) {
-                    // To avoid immediate infinite loop clicks, only click once
-                    if (g_ServerStateText.find("Connecting to") == std::string::npos) {
+                static auto lastStateChangeTime = std::chrono::steady_clock::now();
+                auto now = std::chrono::steady_clock::now();
+                
+                // Only attempt an AutoLogin action once every 2 seconds to allow UI transitions
+                if (std::chrono::duration_cast<std::chrono::seconds>(now - lastStateChangeTime).count() < 2) {
+                    return;
+                }
+
+                std::string state = g_ServerStateText;
+
+                // State 1: Main Menu
+                if (state == "Idle" || state == "Not Connected") {
+                    if (auto menu = FindWidget<SDK::UW_MainMenu_C>()) {
+                        g_ServerStateText = "Going Online";
+                        lastStateChangeTime = now;
+                        std::cout << "[AutoLogin] State: Going Online..." << std::endl;
+                        menu->BndEvt__W_MainMenu_PlayOnlineButton_K2Node_ComponentBoundEvent_0_CommonButtonBaseClicked__DelegateSignature(nullptr);
+                    }
+                }
+                // State 2: Login
+                else if (state == "Going Online") {
+                    if (auto login = FindWidget<SDK::UW_LogIn_C>()) {
+                        g_ServerStateText = "Heading to Character Selection";
+                        lastStateChangeTime = now;
+                        std::cout << "[AutoLogin] State: Heading to Character Selection..." << std::endl;
+                        login->BndEvt__W_LogIn_LoginWithSteamButton_K2Node_ComponentBoundEvent_8_CommonButtonBaseClicked__DelegateSignature(nullptr);
+                    }
+                }
+                // State 3: Character Selection
+                else if (state == "Heading to Character Selection") {
+                    if (auto charSelect = FindWidget<SDK::UW_CharacterSelection_C>()) {
+                        g_ServerStateText = "Picking Servers";
+                        lastStateChangeTime = now;
+                        std::cout << "[AutoLogin] State: Picking Servers..." << std::endl;
+                        
+                        int count = charSelect->Characters.Num();
+                        
+                        // Rescan and cache
+                        {
+                            std::lock_guard<std::recursive_mutex> lock(config->ConfigMutex);
+                            config->CachedCharacters.clear();
+                            for (int i = 0; i < count; ++i) {
+                                auto* charData = charSelect->Characters[i];
+                                if (charData) {
+                                    CharacterCacheData data;
+                                    data.Name = charData->Data.CharacterName.ToString();
+                                    data.CombatLevel = charData->Summary.CombatLevel;
+                                    data.OverallLevel = charData->Summary.OverallLevel;
+                                    data.OriginalSlotIndex = i;
+                                    data.Label = data.Name + " (Cb:" + std::to_string(data.CombatLevel) + " Total:" + std::to_string(data.OverallLevel) + ")";
+                                    config->CachedCharacters.push_back(data);
+                                }
+                            }
+                        }
+                        config->Save(g_CurrentProfile);
+                        
+                        // Select Slot and Enter World
+                        if (config->SelectedCharacterSlot >= 0 && config->SelectedCharacterSlot < count && charSelect->CharactersListView) {
+                            auto* charData = charSelect->Characters[config->SelectedCharacterSlot];
+                            if (charData) {
+                                charSelect->CharactersListView->BP_SetSelectedItem(charData);
+                            }
+                        }
+                        charSelect->BndEvt__W_CharacterSelection_PlayButton_K2Node_ComponentBoundEvent_5_CommonButtonBaseClicked__DelegateSignature(nullptr);
+                    }
+                }
+                // State 4: Server Selection
+                else if (state == "Picking Servers") {
+                    if (auto serverList = FindWidget<SDK::UW_ServerSlotsList_C>()) {
                         std::vector<ServerDef> candidates;
                         {
                             std::lock_guard<std::mutex> lock(g_ServersMutex);
@@ -366,6 +430,7 @@ void Boilerplate::Update() {
                         if (!candidates.empty()) {
                             ServerDef targetServer = candidates[rand() % candidates.size()];
                             g_ServerStateText = "Connecting to " + targetServer.name;
+                            lastStateChangeTime = now;
                             std::cout << "[AutoLogin] State: " << g_ServerStateText << std::endl;
                             
                             g_JoinedServerName = targetServer.name;
@@ -383,80 +448,9 @@ void Boilerplate::Update() {
                                     break;
                                 }
                             }
-                            // Do NOT disable AutoLogin here, wait until we successfully reach the game world HUD
                         }
                     }
-                    return;
                 }
-            }
-
-            // State 3: Character Selection
-            if (auto charSelect = FindWidget<SDK::UW_CharacterSelection_C>()) {
-                if (IsWidgetVisible(charSelect)) {
-                    if (g_ServerStateText != "Picking Servers") {
-                        g_ServerStateText = "Picking Servers";
-                        std::cout << "[AutoLogin] State: Picking Servers..." << std::endl;
-                        
-                        int count = charSelect->Characters.Num();
-                        
-                        // Rescan and cache
-                        auto config = Config::GetInstance();
-                        {
-                            std::lock_guard<std::recursive_mutex> lock(config->ConfigMutex);
-                            config->CachedCharacters.clear();
-                            
-                            for (int i = 0; i < count; ++i) {
-                                auto* charData = charSelect->Characters[i];
-                                if (charData) {
-                                    CharacterCacheData data;
-                                    data.Name = charData->Data.CharacterName.ToString();
-                                    data.CombatLevel = charData->Summary.CombatLevel;
-                                    data.OverallLevel = charData->Summary.OverallLevel;
-                                    data.OriginalSlotIndex = i;
-                                    data.Label = data.Name + " (Cb:" + std::to_string(data.CombatLevel) + " Total:" + std::to_string(data.OverallLevel) + ")";
-                                    
-                                    config->CachedCharacters.push_back(data);
-                                }
-                            }
-                        }
-                        config->Save(g_CurrentProfile);
-                        
-                        // Select Slot and Enter World
-                        if (config->SelectedCharacterSlot >= 0 && config->SelectedCharacterSlot < count && charSelect->CharactersListView) {
-                            auto* charData = charSelect->Characters[config->SelectedCharacterSlot];
-                            if (charData) {
-                                charSelect->CharactersListView->BP_SetSelectedItem(charData);
-                            }
-                        }
-                        charSelect->BndEvt__W_CharacterSelection_PlayButton_K2Node_ComponentBoundEvent_5_CommonButtonBaseClicked__DelegateSignature(nullptr);
-                    }
-                    return;
-                }
-            }
-            
-            // State 2: Login
-            if (auto login = FindWidget<SDK::UW_LogIn_C>()) {
-                if (IsWidgetVisible(login)) {
-                    if (g_ServerStateText != "Heading to Character Selection") {
-                        g_ServerStateText = "Heading to Character Selection";
-                        std::cout << "[AutoLogin] State: Heading to Character Selection..." << std::endl;
-                        login->BndEvt__W_LogIn_LoginWithSteamButton_K2Node_ComponentBoundEvent_8_CommonButtonBaseClicked__DelegateSignature(nullptr);
-                    }
-                    return;
-                }
-            }
-
-            // State 1: Main Menu
-            if (auto menu = FindWidget<SDK::UW_MainMenu_C>()) {
-                if (IsWidgetVisible(menu)) {
-                    if (g_ServerStateText != "Going Online") {
-                        g_ServerStateText = "Going Online";
-                        std::cout << "[AutoLogin] State: Going Online..." << std::endl;
-                        menu->BndEvt__W_MainMenu_PlayOnlineButton_K2Node_ComponentBoundEvent_0_CommonButtonBaseClicked__DelegateSignature(nullptr);
-                    }
-                    return;
-                }
-            }
         });
         }
     }
